@@ -1,0 +1,69 @@
+libs package
+============
+
+Submodules
+----------
+
+libs.ap module
+--------------
+
+.. automodule:: libs.ap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.common module
+------------------
+
+.. automodule:: libs.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.communication module
+-------------------------
+
+.. automodule:: libs.communication
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.communication1 module
+--------------------------
+
+.. automodule:: libs.communication1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.communication2 module
+--------------------------
+
+.. automodule:: libs.communication2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.controller module
+----------------------
+
+.. automodule:: libs.controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+libs.errors module
+------------------
+
+.. automodule:: libs.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: libs
+   :members:
+   :undoc-members:
+   :show-inheritance:

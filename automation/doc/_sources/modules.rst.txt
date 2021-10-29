@@ -1,0 +1,7 @@
+ewifi
+=====
+
+.. toctree::
+   :maxdepth: 4
+
+   ewifi

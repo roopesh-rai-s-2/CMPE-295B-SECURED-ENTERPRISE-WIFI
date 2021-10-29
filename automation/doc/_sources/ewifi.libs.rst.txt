@@ -1,0 +1,45 @@
+ewifi.libs package
+==================
+
+Submodules
+----------
+
+ewifi.libs.common module
+------------------------
+
+.. automodule:: ewifi.libs.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ewifi.libs.controller module
+----------------------------
+
+.. automodule:: ewifi.libs.controller
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ewifi.libs.errors module
+------------------------
+
+.. automodule:: ewifi.libs.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ewifi.libs.serial\_access module
+--------------------------------
+
+.. automodule:: ewifi.libs.serial_access
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ewifi.libs
+   :members:
+   :undoc-members:
+   :show-inheritance:

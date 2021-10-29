@@ -1,0 +1,18 @@
+ewifi package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ewifi.libs
+
+Module contents
+---------------
+
+.. automodule:: ewifi
+   :members:
+   :undoc-members:
+   :show-inheritance:

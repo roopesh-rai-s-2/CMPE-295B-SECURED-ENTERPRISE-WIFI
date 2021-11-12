@@ -1,0 +1,11 @@
+# Copyright 2021. All right reserved.
+# Author: Roopesha Sheshappa, Rai
+
+provider: aruba
+controller: 650
+device_id: /dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller_D-if00-port0 
+baudrate: 9600
+prompt: "#"
+username: admin
+password: aruba123
+admin_password: enable

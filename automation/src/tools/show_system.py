@@ -1,6 +1,8 @@
 # Copyright 2021. All right reserved.
 # Author: Roopesha Sheshappa, Rai
 
+import argparse
+
 import logging
 import sys
 
@@ -14,9 +16,13 @@ logging.basicConfig(format='%(asctime)s: %(levelname)-1s: %(message)s',
                 level=logging.DEBUG,
                 datefmt='%Y-%m-%d %H:%M:%S')
 
-CONFIGURATION_FILE = "../ewifi/configure/aruba_controller_1.yaml"
+parser = argparse.ArgumentParser(description="Controller")
+parser.add_argument("--controller", help="Name of the controller")
+args = parser.parse_args()
 
-controller = AurubaController(CONFIGURATION_FILE)
+CONFIGURATION_FILE = "../ewifi/configure/{}.yaml".format(args.controller)
+
+controller = AurubaController(CONFIGURATION_FILE, name=args.controller)
 if not controller.test_health():
     raise FrameworkError("Unhealthy Aruba controller")
 controller.show_system()

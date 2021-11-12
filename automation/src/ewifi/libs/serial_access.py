@@ -59,13 +59,16 @@ class AurubaControllerSerial:
         logger.debug(f"{name}Initiating serial communication with device ID {device_id}")
 
         if not os.path.exists(device_id):
-            logger.error("Looks like serial device is not connected")
+            logger.error("%s: Looks like serial device is not connected", self._name)
             raise SetupError("Controller not detected via serial")
 
         self.device_id = device_id
         self.baudrate = baudrate
         self.prompt = prompt
         self._admin = False
+        if not name:
+            name = "device"
+        self._name = name
 
     @property
     def prompt_status(self):
@@ -87,13 +90,13 @@ class AurubaControllerSerial:
               raise SetupError("Serial is not alive")
 
           try:
-            p.sendline("\r")
-            status = p.expect(PROMPTS, timeout=timeout)
-            return PROMPTS[status]
+              p.sendline("\r")
+              status = p.expect(PROMPTS, timeout=timeout)
+              return PROMPTS[status]
           except TIMEOUT:
-            logger.exception("Timeout occured during command processing")
-            logger.error(p.before)
-            return None
+              logger.exception("%s: Timeout occured during command processing", self._name)
+              logger.error("%s: %s", self._name, p.before)
+              return None
 
     def login(self, username, password):
         """
@@ -111,16 +114,16 @@ class AurubaControllerSerial:
         output = SerialOutput(None, None)
         logging.info("Logging into Controller")
         if self.prompt_status == PROMPT.LOGIN_USER:
-            logger.debug("Entering username")
+            logger.debug("%s: Entering username", self._name)
             output = self.run(username, prompt=PROMPT.PASSWORD)
          
         if output.after == PROMPT.PASSWORD:
-            logger.debug("Entering user password")
+            logger.debug("%s: Entering user password", self._name)
             output = self.run(password, PROMPT.USER_MODE)
             
         if self.prompt_status not in [PROMPT.USER_MODE, PROMPT.ADMIN_MODE]:
             raise FrameworkError("Unable to login")
-        logger.debug("Successfully logged into controller")
+        logger.debug("%s: Successfully logged into controller", self._name)
 
     def enable_admin_mode(self, password):
         """
@@ -145,7 +148,7 @@ class AurubaControllerSerial:
                 raise FrameworkError("Unable to enable admin mode")
 
         self._admin = True
-        logger.debug("Controller is in admin mode")
+        logger.debug("%s: Controller is in admin mode", self._name)
 
 
     def run(self, command, prompt=None, timeout=None):
@@ -178,16 +181,16 @@ class AurubaControllerSerial:
                  p.sendline("no paging\r")
                  p.expect(PROMPT.ADMIN_MODE, timeout=timeout)
               except:
-                 logger.warning("Unable to disable paging")
+                  logger.warning("%s: Unable to disable paging", self._name)
           try:
               p.sendline(command+"\r")
               p.expect(prompt, timeout=timeout)
               return SerialOutput(p.before.strip(), p.after.strip())
           except TIMEOUT:
-              logger.debug("prompt %s before %s after %s" % (prompt, p.before, p.after))
+              logger.debug("%s: prompt %s before %s after %s", self._name, prompt, p.before, p.after)
               if prompt in p.before.split():
                   return SerialOutput(p.before.strip(), p.after.strip())
-              logger.exception("Timeout occured during command processing")
-              logger.error("Entered command: %s", p.before)
-              logger.error("Now it is prompting: %s", p.after)
+              logger.exception("%s: Timeout occured during command processing", self._name)
+              logger.error("%s: Entered command: %s", self._name, p.before)
+              logger.error("%s: Now it is prompting: %s", self._name, p.after)
               raise FrameworkError("Failed to run command")

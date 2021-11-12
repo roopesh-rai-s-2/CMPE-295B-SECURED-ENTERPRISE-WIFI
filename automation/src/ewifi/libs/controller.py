@@ -2,6 +2,7 @@
 # Author: Roopesha Sheshappa, Rai
 
 import logging
+import os 
 
 from ewifi.libs.common import ConfigureReader
 from ewifi.libs.serial_access import AurubaControllerSerial
@@ -13,13 +14,22 @@ logger = logging.getLogger(__name__)
 class AurubaController:
     """Class for controlling Auruba controller via serial communication."""
 
-    def __init__(self, conf_file):
-        logger.info("Creating Aruba controller")
+    def __init__(self, conf_file, name=""):
+        if not name:
+            name = "Controller"
+        self._name = name
+
+        logger.info("%s: Creating Aruba controller", self._name)
+        if not os.path.exists(conf_file):
+            logger.error("%s: Configuration file %s not found", self._name, conf_file)
+            raise FrameworkError("Configuration file unfound")
+        
         self.configuration = ConfigureReader(conf_file)
         self.serial = AurubaControllerSerial(self.configuration.get("device_id", None),
                                              self.configuration.get("baudrate"),
-                                             self.configuration.get("prompt"))
-        logger.debug("Created serial wrapper aroung Aruba controller.")
+                                             self.configuration.get("prompt"),
+                                             name=self._name)
+        logger.debug("%s: Created serial wrapper aroung Aruba controller", self._name)
         if not self.test_health():
             raise SetupError("Unhealthy controller")
         self.serial.login(self.configuration.get("username"), self.configuration.get("password"))
@@ -40,135 +50,103 @@ class AurubaController:
             if line.startswith("ArubaOS"):
                 info = line.split()[4]
                 break
-        logger.info("Controller version: %s", info)
+        logger.info("%s: Controller version: %s", self._name, info)
         return info 
 
     def show_switch_software(self):
-        logger.info("Switch software:")
+        logger.info("%s: Switch software", self._name)
         output = self.run("show switch software")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def test_health(self):
-        logger.info("Checking if controller is healthy")
-        logger.info("Controller is healthy")
+        logger.info("%s: Checking if controller is healthy", self._name)
+        logger.info("%s: Controller is healthy", self._name)
         return True
 
     def show_license(self):
-        logger.info("Getting license information")
+        logger.info("%s: Getting license information", self._name)
         output = self.run("show license")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_ap_database(self):
-        logger.info("Getting AP database details")
+        logger.info("%s: Getting AP database details", self._name)
         output = self.run("show ap database")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_wlan_virtual_ap(self):
-        logger.info("Getting WLAN virtual AP details")
+        logger.info("%s: Getting WLAN virtual AP details", self._name)
         output = self.run("show wlan virtual-ap")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_system(self):
-        logger.info("Getting system details")
+        logger.info("%s: Getting system details", self._name)
         output = self.run("show system")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_vlan(self):
-        logger.info("Getting VLAN details")
+        logger.info("%s: Getting VLAN details", self._name)
         output = self.run("show vlan")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_switches(self):
-        logger.info("Getting system details")
+        logger.info("%s: Getting system details", self._name)
         output = self.run("show switches")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_running_config(self):
-        logger.info("Getting running configuration details")
+        logger.info("%s: Getting running configuration details", self._name)
         output = self.run("show run", timeout=6000)
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_wlan_ssid_profile(self):
-        logger.info("Getting WLAN SSID profiles")
+        logger.info("%s: Getting WLAN SSID profiles", self._name)
         output = self.run("show wlan ssid-profile")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_switchinfo(self):
-        logger.info("Getting switch information")
+        logger.info("%s: Getting switch information", self._name)
         output = self.run("show switchinfo")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def rights(self):
-        logger.info("Getting controller rights")
+        logger.info("%s: Getting controller rights", self._name)
         output = self.run("show rights")
         logger.info(output)
         return output
 
     def inventory(self):
-        logger.info("Getting inventory details")
+        logger.info("%s: Getting inventory details", self._name)
         output = self.run("show inventory")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_vlan(self):
-        logger.info("Getting VLAN details")
+        logger.info("%s: Getting VLAN details", self._name)
         output = self.run("show vlan")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_ap(self):
         output = self.run("show ap")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
     def show_arp(self):
         output = self.run("show arp")
-        logger.info(output)
+        logger.info("%s: %s", self._name, output)
         return output
 
-    def login(self, username, password):
-        logger.info("Logging into aruba controller")
-        #self.pexpect.sendline("\n")
-        #if self.pexpect.expect(["#", "$", "user: "]) == 2:
-        #    self.pexpect.expect("User: ")
-        #    logger.debug("Entering user name")
-        #    self.pexpect.sendline(username)
-        #    self.pexpect.expect("Password: ")
-        #    logger.debug("Entering password")
-        #    self.pexpect.sendline(password)
-        #    self.pexpect.expect(["#", "$"])
-        #    logger.info("Logged in")
-        #else:
-        #    logger.info("User %s already logged in", username)
-
-    def is_preivilage_mode_enabled(self):
-        return self.pexpect.expect(["tests", "#", "$"]) == 1
-
-    def enable_privilage_mode(self, password):
-        logger.info("Enabling privilage mode")
-        if not self.is_preivilage_mode_enabled():
-            self.pexpect.sendline("\n")
-            self.pexpect.expect("$")
-            self.pexpect.sendline("enable")
-            self.pexpect.expect("Password: ")
-            logger.debug("Entering password")
-            self.pexpect.sendline(password)
-            self.pexpect.expect("")
-            logger.info("Enabled privilage mode")
-        else:
-            logger.info("Already enabled privilage mode")
-
     def enable_configure_mode(self):
-        logger.info("Enabling configuring mode")
+        logger.info("%s: Enabling configuring mode", self._name)
         self.run("configure terminal")
 

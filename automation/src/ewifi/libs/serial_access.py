@@ -83,6 +83,9 @@ class AurubaControllerSerial:
 
         with Serial(self.device_id, self.baudrate) as device:
           p = fdspawn(device, encoding="utf-8", codec_errors="replace", maxread=4092)
+          if not p.isalive():
+              raise SetupError("Serial is not alive")
+
           try:
             p.sendline("\r")
             status = p.expect(PROMPTS, timeout=timeout)
@@ -168,6 +171,8 @@ class AurubaControllerSerial:
 
         with Serial(self.device_id, self.baudrate) as device:
           p = fdspawn(device, encoding="utf-8", codec_errors="replace", maxread=4092)
+          if not p.isalive():
+              raise SetupError("Serial is not alive")
           if self._admin:
               try:
                  p.sendline("no paging\r")

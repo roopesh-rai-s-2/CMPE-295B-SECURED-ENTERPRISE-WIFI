@@ -2,6 +2,9 @@
 # Author: Roopesha Sheshappa, Rai
 
 import logging
+import sys
+
+sys.path.append("../")
 
 from ewifi.libs.controller import AurubaController 
 from ewifi.libs.errors import FrameworkError
@@ -11,9 +14,9 @@ logging.basicConfig(format='%(asctime)s: %(levelname)-1s: %(message)s',
                 level=logging.DEBUG,
                 datefmt='%Y-%m-%d %H:%M:%S')
 
-CONFIGURATION_FILE = "ewifi/configure/aruba_controller_1.yaml"
+CONFIGURATION_FILE = "../ewifi/configure/aruba_controller_1.yaml"
 
 controller = AurubaController(CONFIGURATION_FILE)
 if not controller.test_health():
     raise FrameworkError("Unhealthy Aruba controller")
-controller.show_license()
+controller.show_running_config()

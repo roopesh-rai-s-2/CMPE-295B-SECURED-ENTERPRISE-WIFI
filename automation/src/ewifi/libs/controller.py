@@ -24,6 +24,7 @@ class AurubaController:
             raise SetupError("Unhealthy controller")
         self.serial.login(self.configuration.get("username"), self.configuration.get("password"))
         self.serial.enable_admin_mode(self.configuration.get("admin_password"))
+        self.enable_configure_mode()
         self.version()
 
     def run(self, command, prompt=None, timeout=None):
@@ -59,13 +60,49 @@ class AurubaController:
         logger.info(output)
         return output
 
+    def show_ap_database(self):
+        logger.info("Getting AP database details")
+        output = self.run("show ap database")
+        logger.info(output)
+        return output
+
+    def show_wlan_virtual_ap(self):
+        logger.info("Getting WLAN virtual AP details")
+        output = self.run("show wlan virtual-ap")
+        logger.info(output)
+        return output
+
+    def show_system(self):
+        logger.info("Getting system details")
+        output = self.run("show system")
+        logger.info(output)
+        return output
+
+    def show_vlan(self):
+        logger.info("Getting VLAN details")
+        output = self.run("show vlan")
+        logger.info(output)
+        return output
+
+    def show_switches(self):
+        logger.info("Getting system details")
+        output = self.run("show switches")
+        logger.info(output)
+        return output
+
+    def show_running_config(self):
+        logger.info("Getting running configuration details")
+        output = self.run("show run", timeout=6000)
+        logger.info(output)
+        return output
+
     def show_wlan_ssid_profile(self):
         logger.info("Getting WLAN SSID profiles")
         output = self.run("show wlan ssid-profile")
         logger.info(output)
         return output
 
-    def switchinfo(self):
+    def show_switchinfo(self):
         logger.info("Getting switch information")
         output = self.run("show switchinfo")
         logger.info(output)
@@ -130,4 +167,8 @@ class AurubaController:
             logger.info("Enabled privilage mode")
         else:
             logger.info("Already enabled privilage mode")
+
+    def enable_configure_mode(self):
+        logger.info("Enabling configuring mode")
+        self.run("configure terminal")
 

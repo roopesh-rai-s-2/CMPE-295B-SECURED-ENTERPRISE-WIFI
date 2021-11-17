@@ -70,6 +70,30 @@ class AurubaController:
         logger.info("%s: %s", self._name, output)
         return output
 
+    def show_crypto_dynamic_map(self):
+        logger.info("%s: Getting crypto dynamic map details", self._name)
+        output = self.run("show crypto dynamic-map")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_crypto_ipsec_security_associations(self):
+        logger.info("%s: Getting crypto IPSec Security Associations", self._name)
+        output = self.run("show crypto ipsec sa")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_crypto_ipsec_max_mtu(self):
+        logger.info("%s: Getting crypto IPSec max MTU", self._name)
+        output = self.run("show crypto ipsec mtu")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_crypto_ipsec_map_id(self):
+        logger.info("%s: Getting IPsec MAP to ID mapping.", self._name)
+        output = self.run("show crypto ipsec ipsec-map-id")
+        logger.info("%s: %s", self._name, output)
+        return output
+
     def show_ap_database(self):
         logger.info("%s: Getting AP database details", self._name)
         output = self.run("show ap database")
@@ -100,6 +124,42 @@ class AurubaController:
         logger.info("%s: %s", self._name, output)
         return output
 
+    def show_control_plane_security(self):
+        logger.info("%s: Getting Control plane security details", self._name)
+        output = self.run("show control-plane-security")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def enable_control_plane_security(self):
+        logger.info("%s: Enabling Control plane security", self._name)
+        output = self.run("control-plane-security cpsec-enable")
+        return output
+    
+    def enable_auto_certificate_provisioning(self):
+        logger.info("%s: Enabling control plane security - auto certificate provisioning", self._name)
+        output = self.run("control-plane-security auto-cert-prov")
+        return output
+    
+    def enable_auto_certificate_allow_all(self):
+        logger.info("%s: Enabling control plane security - auto certificate provisioning allow all", self._name)
+        output = self.run("control-plane-security auto-cert-allow-all")
+        return output
+    
+    def disable_control_plane_security(self):
+        logger.info("%s: Disabling Control plane security security", self._name)
+        output = self.run("control-plane-security no cpsec-enable")
+        return output
+    
+    def disable_auto_certificate_provisioning(self):
+        logger.info("%s: Disabling control plane security - auto certificate provisioning", self._name)
+        output = self.run("control-plane-security no auto-cert-prov")
+        return output
+    
+    def disable_auto_certificate_allow_all(self):
+        logger.info("%s: Disabling control plane security - auto certificate provisioning allow all", self._name)
+        output = self.run("control-plane-security no auto-cert-allow-all")
+        return output
+    
     def show_running_config(self):
         logger.info("%s: Getting running configuration details", self._name)
         output = self.run("show run", timeout=6000)
@@ -149,4 +209,3 @@ class AurubaController:
     def enable_configure_mode(self):
         logger.info("%s: Enabling configuring mode", self._name)
         self.run("configure terminal")
-

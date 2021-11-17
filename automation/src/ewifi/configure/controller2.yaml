@@ -3,7 +3,7 @@
 
 provider: aruba
 controller: 650
-device_id: /dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller_D-if00-port0 
+device_id: /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A50285BI-if00-port0 
 baudrate: 9600
 prompt: "#"
 username: admin

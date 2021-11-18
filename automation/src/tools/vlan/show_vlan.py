@@ -6,7 +6,7 @@ import argparse
 import logging
 import sys
 
-sys.path.append("../")
+sys.path.append("../../")
 
 from ewifi.libs.controller import AurubaController 
 from ewifi.libs.errors import FrameworkError
@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description="Controller")
 parser.add_argument("--controller", help="Name of the controller")
 args = parser.parse_args()
 
-CONFIGURATION_FILE = "../ewifi/configure/{}.yaml".format(args.controller)
+CONFIGURATION_FILE = "../../ewifi/configure/{}.yaml".format(args.controller)
 
 controller = AurubaController(CONFIGURATION_FILE, name=args.controller)
 if not controller.test_health():

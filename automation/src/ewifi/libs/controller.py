@@ -70,6 +70,77 @@ class AurubaController:
         logger.info("%s: %s", self._name, output)
         return output
 
+    def show_port_status(self):
+        logger.info("%s: Getting port status information", self._name)
+        output = self.run("show port status")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_ip_interface_br(self):
+        logger.info("%s: Getting IP interface br information", self._name)
+        output = self.run("show ip interface br")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_datapath_tunnel(self, tunnel_id):
+        logger.info("%s: Getting license information", self._name)
+        self.run("no paging")
+        command="show datapath tunnel"
+        if tunnel_id:
+            command+=f" tunnel-id {tunnel_id}"
+        output = self.run(command)
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_wlan_virtual_ap(self, vap):
+        logger.info("%s: Getting WlAN virtual ap information", self._name)
+        output = self.run(f"show wlan virtual-ap {vap}")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_crypto_isakmp(self):
+        logger.info("%s: Getting crypto isakmp information", self._name)
+        output = self.run("show crypto isakmp sa")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_auth_tracebuf(self):
+        logger.info("%s: Getting auth tracebuf information", self._name)
+        output = self.run("show auth-tracebuf")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_user_table(self):
+        logger.info("%s: Getting user table information", self._name)
+        output = self.run("show user-table")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_essids(self):
+        logger.info("%s: Getting AP ESSID information", self._name)
+        output = self.run("show ap essid")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_datapath_session(self):
+        logger.info("%s: Getting datapath session information", self._name)
+        output = self.run("no paging")
+        output = self.run("show datapath session")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_controller_ip(self):
+        logger.info("%s: Getting controller IP information", self._name)
+        output = self.run("show controller-ip")
+        logger.info("%s: %s", self._name, output)
+        return output
+
+    def show_vrrp(self):
+        logger.info("%s: Getting VRRP details", self._name)
+        output = self.run("show vrrp")
+        logger.info("%s: %s", self._name, output)
+        return output
+
     def show_crypto_dynamic_map(self):
         logger.info("%s: Getting crypto dynamic map details", self._name)
         output = self.run("show crypto dynamic-map")
@@ -100,7 +171,7 @@ class AurubaController:
         logger.info("%s: %s", self._name, output)
         return output
 
-    def show_wlan_virtual_ap(self):
+    def list_wlan_virtual_ap(self):
         logger.info("%s: Getting WLAN virtual AP details", self._name)
         output = self.run("show wlan virtual-ap")
         logger.info("%s: %s", self._name, output)
@@ -209,3 +280,4 @@ class AurubaController:
     def enable_configure_mode(self):
         logger.info("%s: Enabling configuring mode", self._name)
         self.run("configure terminal")
+        self.run("no paging")

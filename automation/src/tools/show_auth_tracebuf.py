@@ -19,14 +19,11 @@ logging.basicConfig(format='%(asctime)s: %(levelname)-1s: %(message)s',
 
 parser = argparse.ArgumentParser(description="Controller")
 parser.add_argument("--controller", help="Name of the controller")
-parser.add_argument("--vap", help="name of the virtual ap")
 args = parser.parse_args()
-
-vap = args.vap if args.vap else "CMPE-295A-VAP"
 
 CONFIGURATION_FILE = "../ewifi/configure/{}.yaml".format(args.controller)
 
 controller = AurubaController(CONFIGURATION_FILE, name=args.controller)
 if not controller.test_health():
     raise FrameworkError("Unhealthy Aruba controller")
-controller.show_wlan_virtual_ap(vap)
+controller.show_auth_tracebuf()

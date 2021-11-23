@@ -150,7 +150,6 @@ class AurubaControllerSerial:
         self._admin = True
         logger.debug("%s: Controller is in admin mode", self._name)
 
-
     def run(self, command, prompt=None, timeout=None):
         """
         Runs command on Aruba controller.
